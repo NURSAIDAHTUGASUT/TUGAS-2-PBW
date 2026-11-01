@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking DO - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="dashboard.html"><i class="fa fa-graduation-cap"></i> SITTA UT</a>
+            <a href="stock.html">Informasi Bahan Ajar</a>
+            <a href="tracking.html">Tracking Pengiriman</a>
+            <div class="dropdown">
+                <a href="#">Laporan <i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-isi">
+                    <a href="#" onclick="menuBelum('Monitoring Progress DO Bahan Ajar')">Monitoring Progress DO Bahan Ajar</a>
+                    <a href="#" onclick="menuBelum('Rekap Bahan Ajar')">Rekap Bahan Ajar</a>
+                </div>
+            </div>
+            <a href="#" onclick="menuBelum('Histori Transaksi Bahan Ajar')">Histori Transaksi Bahan Ajar</a>
+            <a href="#" class="kanan" onclick="bukaModal('modalLogout')"><i class="fa fa-sign-out"></i> Logout</a>
+        </nav>
+    </header>
+<div id="app" v-cloak>
+    <main class="container">
+
+        <!-- ===== CARI DO ===== -->
+        <section class="card">
+            <h2><i class="fa fa-search"></i> Tracking Delivery Order</h2>
+            <div class="alert" v-if="pesan != ''">{{ pesan }}</div>
+            <form @submit.prevent="cariDO">
+                <label>Nomor Delivery Order</label>
+                <input type="text" v-model.trim="nomorCari" placeholder="contoh: DO2025-001">
+                <button type="submit" class="btn">Cari</button>
+            </form>
+            <p class="info">Daftar DO tersimpan (klik untuk melihat):
+                <span class="chip" v-for="nomor in daftarDO" :key="nomor" @click="pilihDO(nomor)">{{ nomor }}</span>
+            </p>
+        </section>
+
+        <!-- ===== HASIL TRACKING ===== -->
+        <section class="card" v-if="sudahCari">
+            <div v-if="hasil == null" class="merah">
+                <span v-if="nomorHasil == ''">Nomor DO harus diisi.</span>
+                <span v-else>Nomor DO {{ nomorHasil }} tidak ditemukan.</span>
+            </div>
+            <div v-else>
+                <div class="header-biru">
+                    <h3>{{ hasil.nama }}</h3>
+                    NIM: {{ hasil.nim }} | No. DO: {{ nomorHasil }}
+                </div>
+                <p><b>Status: {{ hasil.status }} ({{ persenProgress }}%)</b></p>
+                <div class="progress"><div class="progress-isi" :style="{ width: persenProgress + '%' }"></div></div>
+                <div class="detail">
+                    <div><small>Ekspedisi</small>{{ hasil.ekspedisi }}</div>
+                    <div><small>Tanggal Kirim</small>{{ hasil.tanggalKirim }}</div>
+                    <div><small>Jenis Paket</small>{{ hasil.paket }} - {{ namaPaket(hasil.paket) }}</div>
+                    <div><small>Total Pembayaran</small>{{ formatRupiah(hasil.total) }}</div>
+                </div>
+                <h2>Perjalanan Paket</h2>
+                <ul class="timeline">
+                    <li v-for="(p, index) in perjalananTerbaru" :key="index">
+                        {{ p.keterangan }}<br><small>{{ p.waktu }}</small>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== FORM TAMBAH DO ===== -->
+        <section class="card">
+            <h2><i class="fa fa-plus-circle"></i> Tambah Delivery Order Baru</h2>
+            <form @submit.prevent="simpanDO">
+                <div class="grid">
+                    <div class="kolom">
+                        <label>Nomor DO (otomatis)</label>
+                        <input type="text" :value="nomorDOBaru" readonly>
+                        <small class="error"></small>
+                    </div>
+                    <div class="kolom">
+                        <label>NIM</label>
+                        <input type="text" v-model.trim="form.nim" :class="{ salah: errors.nim }">
+                        <small class="error">{{ errors.nim }}</small>
+                    </div>
+                    <div class="kolom">
+                        <label>Nama</label>
+                        <input type="text" v-model.trim="form.nama" :class="{ salah: errors.nama }">
+                        <small class="error">{{ errors.nama }}</small>
+                    </div>
+                    <div class="kolom">
+                        <label>Ekspedisi</label>
+                        <select v-model="form.ekspedisi" :class="{ salah: errors.ekspedisi }">
+                            <option value="">-- Pilih --</option>
+                            <option v-for="e in pengirimanList" :key="e.kode" :value="'JNE ' + e.nama">{{ e.kode }} - JNE {{ e.nama }}</option>
+                        </select>
+                        <small class="error">{{ errors.ekspedisi }}</small>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="kolom">
+                        <label>Paket Bahan Ajar</label>
+                        <select v-model="form.paket" :class="{ salah: errors.paket }">
+                            <option value="">-- Pilih Paket --</option>
+                            <option v-for="p in paketList" :key="p.kode" :value="p.kode">{{ p.kode }} - {{ p.nama }}</option>
+                        </select>
+                        <small class="error">{{ errors.paket }}</small>
+                    </div>
+                    <div class="kolom">
+                        <label>Tanggal Kirim</label>
+                        <input type="date" v-model="form.tanggalKirim" :class="{ salah: errors.tanggalKirim }">
+                        <small class="error">{{ errors.tanggalKirim }}</small>
+                    </div>
+                    <div class="kolom">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-abu btn-kecil" @click="isiHariIni">Pakai tanggal hari ini</button>
+                    </div>
+                    <div class="kolom">
+                        <label>Total Harga</label>
+                        <input type="text" :value="formatRupiah(totalHarga)" readonly>
+                    </div>
+                </div>
+
+                <!-- detail isi paket, muncul setelah paket dipilih -->
+                <div class="kotak-isi" v-if="paketTerpilih != null">
+                    <b>{{ paketTerpilih.kode }} - {{ paketTerpilih.nama }}</b> ({{ formatRupiah(paketTerpilih.harga) }})
+                    <ul>
+                        <li v-for="isi in isiPaket" :key="isi.kode">{{ isi.kode }} - {{ isi.judul }}</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="btn">Simpan DO</button>
+            </form>
+        </section>
+    </main>
+</div>
+    <!-- Popup pesan -->
+    <div id="popup" class="modal">
+        <div class="modal-content popup-kecil">
+            <i class="fa fa-info-circle"></i>
+            <h3 id="popupJudul"></h3>
+            <p id="popupIsi"></p>
+            <button class="btn" onclick="tutupModal('popup')">OK</button>
+        </div>
+    </div>
+
+    <!-- Konfirmasi logout -->
+    <div id="modalLogout" class="modal">
+        <div class="modal-content popup-kecil">
+            <i class="fa fa-question-circle"></i>
+            <h3>Logout</h3>
+            <p>Yakin ingin keluar?</p>
+            <button class="btn btn-batal" onclick="tutupModal('modalLogout')">Batal</button>
+            <button class="btn" onclick="logout()">Ya</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="js/dataBahanAjar.js"></script>
+    <script src="js/script.js"></script>
+    <script>cekLogin();</script>
+    <script src="js/tracking-app.js"></script>
+</body>
+</html>

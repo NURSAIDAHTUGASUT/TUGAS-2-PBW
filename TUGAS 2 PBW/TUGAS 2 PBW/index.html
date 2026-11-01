@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Utama - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="dashboard.html"><i class="fa fa-graduation-cap"></i> SITTA UT</a>
+            <a href="stock.html">Informasi Bahan Ajar</a>
+            <a href="tracking.html">Tracking Pengiriman</a>
+            <div class="dropdown">
+                <a href="#">Laporan <i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-isi">
+                    <a href="#" onclick="menuBelum('Monitoring Progress DO Bahan Ajar')">Monitoring Progress DO Bahan Ajar</a>
+                    <a href="#" onclick="menuBelum('Rekap Bahan Ajar')">Rekap Bahan Ajar</a>
+                </div>
+            </div>
+            <a href="#" onclick="menuBelum('Histori Transaksi Bahan Ajar')">Histori Transaksi Bahan Ajar</a>
+            <a href="#" class="kanan" onclick="bukaModal('modalLogout')"><i class="fa fa-sign-out"></i> Logout</a>
+        </nav>
+    </header>
+    <main class="container beranda">
+        <h1>SITTA UT</h1>
+        <p>Sistem Informasi Tiras dan Transaksi Bahan Ajar</p>
+        <section class="pintasan">
+            <a href="stock.html"><i class="fa fa-book"></i>Stok Bahan Ajar</a>
+            <a href="tracking.html"><i class="fa fa-truck"></i>Tracking Delivery Order</a>
+        </section>
+    </main>
+
+    <!-- Popup pesan -->
+    <div id="popup" class="modal">
+        <div class="modal-content popup-kecil">
+            <i class="fa fa-info-circle"></i>
+            <h3 id="popupJudul"></h3>
+            <p id="popupIsi"></p>
+            <button class="btn" onclick="tutupModal('popup')">OK</button>
+        </div>
+    </div>
+
+    <!-- Konfirmasi logout -->
+    <div id="modalLogout" class="modal">
+        <div class="modal-content popup-kecil">
+            <i class="fa fa-question-circle"></i>
+            <h3>Logout</h3>
+            <p>Yakin ingin keluar?</p>
+            <button class="btn btn-batal" onclick="tutupModal('modalLogout')">Batal</button>
+            <button class="btn" onclick="logout()">Ya</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>cekLogin();</script>
+</body>
+</html>

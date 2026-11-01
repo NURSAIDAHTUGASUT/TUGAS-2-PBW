@@ -1,0 +1,127 @@
+/* style.css - tampilan SITTA UT (Tugas 2 Vue.js) */
+body { font-family: Arial, sans-serif; background-color: #e6f0ff; margin: 0; }
+[v-cloak] { display: none; }
+.fa { color: #ff8c1a; }                       /* ikon warna oren */
+a { text-decoration: none; }
+
+/* navbar */
+.menu { background-color: #0d3b7a; overflow: hidden; }
+.menu a { float: left; color: white; padding: 16px; }
+.menu a:hover { background-color: #1e5aa8; }
+
+.container { width: 90%; max-width: 1100px; margin: 25px auto; }
+.card { background-color: white; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0px 2px 6px #b0c4de; }
+h1, h2 { color: #0d3b7a; }
+
+/* form */
+label { color: gray; font-size: 14px; display: block; margin-bottom: 3px; }
+input, select { width: 100%; padding: 9px; margin-bottom: 4px; border: 1px solid #b0c4de; border-radius: 5px; box-sizing: border-box; }
+input[type=checkbox], input[type=radio] { width: auto; margin-bottom: 0; }
+input.salah, select.salah { border-color: red; }
+.error { color: red; font-size: 12px; display: block; min-height: 16px; }
+.btn { background-color: #1e5aa8; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; }
+.btn:hover { background-color: #0d3b7a; }
+.btn-abu { background-color: gray; }
+.btn-kecil { padding: 5px 12px; font-size: 13px; }
+.grid { overflow: hidden; }
+.kolom { float: left; width: 23%; margin-right: 2%; }
+.bersih { clear: both; }
+.pilihan { margin-top: 8px; }
+.pilihan label { display: inline; color: black; margin-right: 15px; }
+
+/* pesan */
+.alert { background-color: #dcfce7; color: #166534; padding: 10px; border-radius: 5px; margin-bottom: 12px; }
+.info { color: gray; }
+
+/* tabel */
+.tabel-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background-color: #1e5aa8; color: white; padding: 10px; text-align: left; }
+td { padding: 9px; border-bottom: 1px solid #ddd; vertical-align: top; }
+tr.baris-menipis td { background-color: #fff7ed; }
+tr.baris-kosong td { background-color: #fef2f2; }
+.status-aman { color: green; font-weight: bold; }
+.status-menipis { color: #ff8c1a; font-weight: bold; }
+.status-kosong { color: red; font-weight: bold; }
+.kecil { color: gray; font-size: 12px; }
+
+/* halaman index */
+.beranda { text-align: center; margin-top: 60px; }
+.pintasan a { display: inline-block; width: 40%; max-width: 280px; margin: 10px; padding: 30px 10px; background-color: white; border-radius: 10px; color: #0d3b7a; font-weight: bold; box-shadow: 0px 2px 6px #b0c4de; }
+.pintasan a:hover { background-color: #cfdcf2; }
+.pintasan .fa { font-size: 42px; display: block; margin-bottom: 8px; }
+
+/* tracking */
+.header-biru { background-color: #1e5aa8; color: white; padding: 15px; border-radius: 8px; }
+.detail { overflow: hidden; margin: 15px 0px; }
+.detail div { float: left; width: 22%; margin-right: 2%; background-color: #e6f0ff; padding: 10px; border-radius: 5px; }
+.detail small { color: gray; display: block; }
+.progress { background-color: #cfdcf2; height: 15px; border-radius: 10px; margin: 8px 0px 20px 0px; }
+.progress-isi { background-color: #ff8c1a; height: 15px; border-radius: 10px; }
+.timeline li { border-left: 4px solid #ff8c1a; padding-left: 12px; margin-bottom: 14px; list-style: none; }
+.timeline small { color: gray; }
+.merah { color: red; font-weight: bold; }
+.kotak-isi { background-color: #e6f0ff; padding: 10px 15px; border-radius: 5px; margin-bottom: 10px; }
+.chip { display: inline-block; background-color: white; border: 1px solid #1e5aa8; color: #1e5aa8; padding: 4px 10px; border-radius: 15px; margin: 3px; cursor: pointer; font-size: 13px; }
+.chip:hover { background-color: #1e5aa8; color: white; }
+
+/* ===== TAMBAHAN DARI TUGAS 1 (navbar, login, modal, popup) ===== */
+.menu .kanan { float: right; }
+.btn-full { width: 100%; }
+.btn-batal { background-color: gray; }
+.link { background: none; border: none; color: #1e5aa8; cursor: pointer; }
+/* dropdown laporan */
+.dropdown { float: left; }
+.dropdown-isi {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 260px;
+  box-shadow: 0px 4px 8px gray;
+}
+.dropdown-isi a {
+  float: none;
+  color: black;
+  display: block;
+}
+.dropdown-isi a:hover { background-color: #e6f0ff; }
+.dropdown:hover .dropdown-isi { display: block; }
+
+
+/* ===== HALAMAN LOGIN ===== */
+.login-box {
+  width: 90%;
+  max-width: 380px;
+  margin: 70px auto;
+  text-align: center;
+}
+.login-box h1 { color: #0d3b7a; }
+.tengah { text-align: center; margin-top: 10px; }
+.kanan-teks { text-align: right; }
+
+/* ===== MODAL / POPUP ===== */
+.modal {
+  display: none;               /* disembunyikan dulu */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background-color: white;
+  width: 90%;
+  max-width: 380px;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 10px;
+}
+.tutup {
+  float: right;
+  font-size: 26px;
+  cursor: pointer;
+}
+.popup-kecil { text-align: center; }
+.popup-kecil .fa { font-size: 45px; }
+

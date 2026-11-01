@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <main class="login-box">
+        <section class="card">
+            <h1>Selamat Datang</h1>
+            <p>Masuk ke akun SITTA UT</p>
+            <form onsubmit="return prosesLogin()" novalidate>
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Password">
+                <div class="kanan-teks">
+                    <button type="button" class="link" onclick="bukaModal('modalLupa')">Lupa password?</button>
+                </div>
+                <button type="submit" class="btn btn-full">Login</button>
+            </form>
+            <div class="tengah">
+                <button type="button" class="link" onclick="bukaModal('modalDaftar')">Belum punya akun? Daftar</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Lupa Password -->
+    <div id="modalLupa" class="modal">
+        <div class="modal-content">
+            <span class="tutup" onclick="tutupModal('modalLupa')">&times;</span>
+            <h2><i class="fa fa-lock"></i> Lupa Password</h2>
+            <form onsubmit="return kirimLupa()" novalidate>
+                <label>Email terdaftar</label>
+                <input type="email" id="emailLupa" placeholder="nama@ut.ac.id">
+                <button type="submit" class="btn btn-full">Kirim Link Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Daftar -->
+    <div id="modalDaftar" class="modal">
+        <div class="modal-content">
+            <span class="tutup" onclick="tutupModal('modalDaftar')">&times;</span>
+            <h2><i class="fa fa-user-plus"></i> Daftar Akun</h2>
+            <form id="formDaftar" onsubmit="return daftarAkun()" novalidate>
+                <label>Nama lengkap</label>
+                <input type="text" id="regNama">
+                <label>Email</label>
+                <input type="email" id="regEmail">
+                <label>Password (minimal 6 karakter)</label>
+                <input type="password" id="regPass">
+                <label>Ulangi password</label>
+                <input type="password" id="regPass2">
+                <button type="submit" class="btn btn-full">Daftar</button>
+            </form>
+        </div>
+    </div>
+    <!-- Popup pesan -->
+    <div id="popup" class="modal">
+        <div class="modal-content popup-kecil">
+            <i class="fa fa-info-circle"></i>
+            <h3 id="popupJudul"></h3>
+            <p id="popupIsi"></p>
+            <button class="btn" onclick="tutupModal('popup')">OK</button>
+        </div>
+    </div>
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
